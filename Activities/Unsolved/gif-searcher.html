@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Gif Searcher</title>
+</head>
+
+<body>
+  <input id="search-input" type="text" placeholder="search for a GIF!"></input>
+  <button id="search-button">Search</button>
+
+  <div id="images"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+
+    $("#search-button").on("click", function() {
+
+      var userInput = $("#search-input").val();
+
+      var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&rating=PG&tag=" + userInput;
+
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
+        .then(function(response) {
+          var gifUrl = response.data.image_original_url;
+          var gif = $("<img>");
+
+          gif.attr("src", gifUrl);
+          gif.attr("alt", userInput + " gif");
+
+          $("#images").prepend(gif);
+        });
+    });
+  </script>
+</body>
+
+</html>
