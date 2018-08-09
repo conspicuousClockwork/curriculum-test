@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Stock Symbol Searcher</title>
+</head>
+
+<body>
+  <input id="search-input" type="text" placeholder="search for a stock symbol!"></input>
+  <button id="search-button">Search</button>
+
+  <div id="symbol-info"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+
+    $("#search-button").on("click", function() {
+
+      var userInput = $("#search-input").val();
+
+      var queryURL = "https://api.iextrading.com/1.0/stock/" + userInput + "/book";
+
+      $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
+        .then(function(response) {
+          var data = response.quote;
+
+          var companyName = $("<p>Name: " + response.quote.companyName + "</p>");
+          var sector = $("<p>Sector: " + response.quote.sector + "</p>");
+          var primaryExchange = $("<p>Primary exchange: " + response.quote.primaryExchange + "</p>");
+          var price = $("<p>Latest Price: $" + response.quote.latestPrice + "</p>");
+          var high = $("<p>High: $" + response.quote.high + "</p>");
+          var low = $("<p>Low: $" + response.quote.low + "</p>");
+
+          
+          $("#symbol-info").prepend(
+            companyName,
+            sector,
+            primaryExchange,
+            price,
+            high,
+            low,
+            "<hr>",
+          );
+
+        });
+    });
+
+    $(document).ajaxError(function() {
+      var userInput = $("#search-input").val();
+
+      $("#symbol-info").prepend("<p>Symbol \"" + userInput + "\" was not found.</p><hr>");
+    });
+
+  </script>
+</body>
+</html>
