@@ -7,7 +7,7 @@
 </head>
 
 <body>
-  <input id="search-input" type="text" placeholder="search for a stock symbol!"></input>
+  <input id="search-input" type="text" placeholder="search for a stock symbol!">
   <button id="search-button">Search</button>
 
   <div id="symbol-info"></div>
@@ -35,7 +35,6 @@
           var high = $("<p>High: $" + response.quote.high + "</p>");
           var low = $("<p>Low: $" + response.quote.low + "</p>");
 
-          
           $("#symbol-info").prepend(
             companyName,
             sector,
